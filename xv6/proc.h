@@ -61,8 +61,16 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
+  uint cpu_ticks;     
 };
 
+struct uproc {
+  int pid;
+  char name[16];
+  int state;
+  uint sz;           // memory size in bytes
+  uint cpu_ticks;    // number of timer ticks this process has run
+};
 // Process memory is laid out contiguously, low addresses first:
 //   text
 //   original data and bss

@@ -1,5 +1,7 @@
 #pragma once
 #include "types.h"
+#include "uproc.h"
+
 struct stat;
 struct rtcdate;
 
@@ -25,6 +27,8 @@ int getpid(void);
 char* sbrk(uint64);
 int sleep(int);
 int uptime(void);
+int uptime(void);
+int getprocs(struct uproc *buf, int max);
 
 // ulib.c
 int stat(char*, struct stat*);

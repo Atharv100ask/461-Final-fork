@@ -1,3 +1,5 @@
+#include "uproc.h"
+
 struct buf;
 struct context;
 struct file;
@@ -157,6 +159,9 @@ addr_t          argaddr(int, addr_t*);
 int             fetchaddr(addr_t, addr_t*);
 int             fetchstr(addr_t, char**);
 int             fetchint(addr_t, int*);
+addr_t sys_getprocs(void);
+int getprocs(struct uproc *buf, int max);
+
 
 // trap.c
 void            idtinit(void);

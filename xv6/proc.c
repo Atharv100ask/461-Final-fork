@@ -48,6 +48,7 @@ allocproc(void)
 
 found:
   p->state = EMBRYO;
+  p->cpu_ticks = 0;
   p->pid = nextpid++;
 
   release(&ptable.lock);
@@ -481,4 +482,27 @@ procdump(void)
     }
     cprintf("\n");
   }
+}
+int
+getprocs(struct uproc *buf, int max)
+{
+  struct proc *p;
+  int count = 0;
+
+  acquire(&ptable.lock);
+
+  for(p = ptable.proc; p < &ptable.proc[NPROC] && count < max; p++){
+    if(p->state == UNUSED)
+      continue;
+
+    buf[count].pid = p->pid;
+    safestrcpy(buf[count].name, p->name, sizeof(buf[count].name));
+    buf[count].state = p->state;
+    buf[count].sz = p->sz;
+    buf[count].cpu_ticks = p->cpu_ticks;
+    count++;
+  }
+
+  release(&ptable.lock);
+  return count;
 }

@@ -5,6 +5,7 @@
 #include "memlayout.h"
 #include "mmu.h"
 #include "proc.h"
+#include "uproc.h"
 
 int
 sys_fork(void)
@@ -86,4 +87,21 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+addr_t
+sys_getprocs(void)
+{
+  struct uproc *buf;
+  int max;
+
+  // arg0: pointer to array of struct uproc
+  // arg1: maximum number of entries
+  if(argint(1, &max) < 0)
+    return -1;
+
+  if(argptr(0, (void *)&buf, sizeof(struct uproc) * max) < 0)
+    return -1;
+
+  return getprocs(buf, max);
 }
