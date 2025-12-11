@@ -80,9 +80,9 @@ main(int argc, char **argv)
   struct uproc procs[MAXPROCS];
 
   while(1){
-    // Clear the screen so each refresh overwrites the previous output.
-    printf(1, "\f");
-
+    // Clear the screen and move the cursor to the top so the table
+    // is refreshed in place, similar to Linux "top".
+    printf(1, "\x1b[2J\x1b[H");
     printf(1, "----- xv6 top -----\n");
 
     int n = getprocs(procs, MAXPROCS);
